@@ -48,6 +48,7 @@ local -A benches=(
   ['chez --program ./chez/code.so']='chez/code.so'
   ['java -cp clojure/classes:$(clojure -Spath) ./clojure/code']='clojure/code'
   ['./cobol/main']='cobol/main'
+  ['./racket/code']='racket/code'
 )
 
 bench=()

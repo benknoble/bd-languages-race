@@ -33,7 +33,8 @@ SHELL = /bin/sh
 	.emojic \
 	.ss \
 	.so \
-	.cbl
+	.cbl \
+	.rkt
 
 
 ARTIFACTS = c/code \
@@ -76,7 +77,9 @@ ARTIFACTS = c/code \
 	    emojicode/code emojicode/code.o \
 	    chez/code.so \
 	    clojure/classes clojure/.cpcache \
-	    cobol/main
+	    cobol/main \
+	    racket/code \
+	    racket/code.zo
 
 all: \
 	c/code \
@@ -106,7 +109,8 @@ all: \
 	v/code \
 	emojicode/code \
 	chez/code.so \
-	cobol/main
+	cobol/main \
+	racket/code
 
 # C: single-inference rule handles the default; set optimization flags
 CFLAGS = -O3
@@ -209,6 +213,13 @@ clojure/classes/code.class: clojure/code.clj
 
 .cbl:
 	cobc -I /opt/homebrew/include/ -O -O2 -O3 -Os -x -o $@ $<
+
+# try RACO_FLAGS=--orig-exe on *nix systems, especially if your Racket is
+# statically linked
+.rkt:
+	raco make $<
+	raco demod -o $*.zo $<
+	raco exe $(RACO_FLAGS) -o $@ $*.zo
 
 # skipping lean4: not present in run.sh
 

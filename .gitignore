@@ -16,3 +16,5 @@ dist/
 *.aux
 *.bbl
 *.blg
+*/racket/compiled/
+*.zo
