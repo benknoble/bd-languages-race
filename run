@@ -1,0 +1,65 @@
+#! /bin/zsh
+
+setopt pipe_fail
+
+local -A benches=(
+  ['java jvm/code jvm/code.class']='jvm/code.class'
+  ['./go/code']='go/code'
+  ['./zig/code']='zig/code'
+  ['./c/code']='c/code'
+  ['./rust/code']='rust/code'
+  ['./emojicode/code']='emojicode/code'
+  ['./dart/code']='dart/code'
+  ['./objc/code']='objc/code'
+  ['java -jar kotlin/code.jar']='kotlin/code.jar'
+  ['./kotlin/code.kexe']='kotlin/code.kexe'
+  ['node ./js/code.js']='js/code.js'
+  ['node --jitless ./js/code.js']='js/code.js'
+  ['bun ./js/code.js']='js/code.js'
+  ['./js/code']='js/code'
+  ['bun ./js/code.js BUN_JSC_useJIT=0']='js/code.js'
+  ['deno --v8-flags=--jitless ./js/code.js']='js/code.js'
+  ['deno ./js/code.js']='js/code.js'
+  ['pypy ./py/code.py']='py/code.py'
+  ['./cpp/code']='cpp/code'
+  ['./scala/code']='scala/code'
+  ['./scala/code-native']='scala/code-native'
+  ['php -dopcache.enable_cli=1 -dopcache.jit=on -dopcache.jit_buffer_size=64M ./php/code.php']='php/code.php'
+  ['php ./php/code.php']='php/code.php'
+  ['python3.13 ./py/code.py']='py/code.py'
+  ['common-lisp/code']='common-lisp/code'
+  ['./inko/code']='inko/code'
+  ['./nim/code']='nim/code'
+  ['./fpc/code']='fpc/code'
+  ['./crystal/code']='crystal/code'
+  ['./odin/code']='odin/code'
+  ['./fortran/code']='fortran/code'
+  ['luajit ./lua/code']='lua/code'
+  ['lua ./lua/code.lua']='lua/code.lua'
+  ['./swift/code']='swift/code'
+  ['julia ./julia/code.jl']='julia/code.jl'
+  ['elixir elixir/bench.exs']='elixir/bench.exs'
+  ['./csharp/code/code']='csharp/code/code'
+  ['./fsharp/code/code']='fsharp/code/code'
+  ['ruby ./ruby/code.rb']='ruby/code.rb'
+  ['miniruby --yjit ./ruby/code.rb']='ruby/code.rb'
+  ['./hs/code']='hs/code'
+  ['./v/code']='v/code'
+  ['chez --program ./chez/code.so']='chez/code.so'
+  ['java -cp clojure/classes:$(clojure -Spath) ./clojure/code']='clojure/code'
+  ['./cobol/main']='cobol/main'
+)
+
+bench=()
+input=$(cat input.txt)
+
+for runner in ${(k)benches}; do
+  comm=($=runner)
+  comm=${comm[1]}
+  if test -r $benches[$runner] && { command -v $comm >/dev/null 2>&1 || { test -x $comm && ! test -d $comm } } ; then
+    bench+=("$runner $input")
+  fi
+done
+
+hyperfine -i --shell=none --warmup 5 $bench |
+  sed 's/\(.\{80\}\).*/\1…/'
