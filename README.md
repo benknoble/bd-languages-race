@@ -1,43 +1,39 @@
-
 # Languages
 
 A repo for collaboratively building small benchmarks to compare languages.
+
 If you have a suggestion for improvement: PR!
+
 If you want to add a language: PR!
 
 ## Running
 
 To run one of the benchmarks:
 
-1. `cd` into desired benchmark directory (EG `$ cd loops`)
-2. Compile by running `$ ../compile.sh`
-3. Run via `$ ../run.sh`.
+1. `cd` into desired benchmark directory (_e.g._, `cd loops`)
+2. Compile by running `make`
+3. Run via `../run`.
   You should see output something like:
   
   ```
-  $ ../run.sh
+  $ ../run
 
-  Benchmarking Zig
   Benchmark 1: ./zig/code 40
     Time (mean ± σ):     513.9 ms ±   2.9 ms    [User: 504.5 ms, System: 2.6 ms]
     Range (min … max):   510.6 ms … 516.2 ms    3 runs
 
-
-  Benchmarking C
-  Benchmark 1: ./c/code 40
+  Benchmark 2: ./c/code 40
     Time (mean ± σ):     514.0 ms ±   1.1 ms    [User: 505.6 ms, System: 2.8 ms]
     Range (min … max):   513.2 ms … 515.2 ms    3 runs
 
-
-  Benchmarking Rust
-  Benchmark 1: ./rust/target/release/code 40
+  Benchmark 3: ./rust/target/release/code 40
     Time (mean ± σ):     514.1 ms ±   2.0 ms    [User: 504.6 ms, System: 3.1 ms]
     Range (min … max):   512.4 ms … 516.3 ms    3 runs
 
-  ...
+  …
   ```
 
-4. For good measure, execute `$ ../clean.sh` when finished.
+4. For good measure, execute `make clean` when finished.
 
 Hyperfine is used to warm, execute, and time the runs of the programs.
 
@@ -45,23 +41,21 @@ Hyperfine is used to warm, execute, and time the runs of the programs.
 
 To add a language:
 
-1. Select the benchmark directory you want to add to (EG `$ cd loops`)
-2. Create a new subdirectory for the language (EG `$ mkdir rust`)
-3. Implement the code in the appropriately named file (EG: `code.rs`)
-4. If the language is compiled, add appropriate command to `../compile.sh` and `../clean.sh`
-5. Add appropriate line to `../run.sh`
+1. Select the benchmark directory you want to add to (_e.g._, `cd loops`)
+2. Create a new subdirectory for the language (_e.g._, `mkdir rust`)
+3. Implement the code in the appropriately named file (_e.g._,: `code.rs`)
+4. If the language is compiled, add appropriate commands to `base.make` and to
+   `ARTIFACTS` in `base.make`.
+5. Add appropriate line to `../run`
 
-You are also welcome to add new top-level benchmarks dirs
+You are also welcome to add new top-level benchmarks.
 
 # Available Benchmarks
 
-### [hello-world](./hello-world/README.md)
-
-### [loops](./loops/README.md)
-
-### [fibonacci](./fibonacci/README.md)
-
-### [levenshtein](./levenshtein/README.md)
+- [hello-world](./hello-world/README.md)
+- [loops](./loops/README.md)
+- [fibonacci](./fibonacci/README.md)
+- [levenshtein](./levenshtein/README.md)
 
 # Corresponding visuals
 
