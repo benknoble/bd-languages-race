@@ -61,5 +61,5 @@ for runner in ${(k)benches}; do
   fi
 done
 
-hyperfine -i --shell=none --warmup 5 $bench |
+hyperfine --shell=none --warmup 5 $bench |
   sed 's/\(.\{80\}\).*/\1…/'
